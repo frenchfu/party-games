@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="irxm02_income_salary" language="groovy" pageWidth="550" pageHeight="802" columnWidth="550" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="2a6f6292-562b-4333-aaaa-ba5c960ba39b">
+	<property name="ireport.zoom" value="2.5937424601000028"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="serialNo" class="java.lang.Integer"/>
+	<field name="fileNumber" class="java.lang.String"/>
+	<field name="addr" class="java.lang.String"/>
+	<field name="idn" class="java.lang.String"/>
+	<field name="taxpayerName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement uuid="8e122ab1-afd4-46cd-ab40-20bcaa7a741b" x="0" y="0" width="80" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="77afe386-659e-4f79-818c-5b80986e2966" x="210" y="0" width="100" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="752728aa-6bbd-4193-aa6c-cda78fe3309f" x="310" y="0" width="120" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="63561bf3-35ef-42c9-81b5-085166b8f655" x="430" y="0" width="120" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="4e826890-ae13-4c8a-8472-1f688be45f7d" x="310" y="0" width="120" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[身分證統一編號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e93f15c3-b90e-44c7-9c9d-5883c071e9bc" x="430" y="0" width="120" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[姓名]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement uuid="d24548e2-fe98-48af-89fb-dc07c21a733d" x="80" y="0" width="130" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="482a03c1-cc6e-4f58-bd79-ce387f248e58" x="0" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[序號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1dd24612-7304-4a93-9711-e9f4c1ac93a7" x="80" y="0" width="130" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[檔案編號]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8f3cf162-3771-4ab5-8cf3-890d58a9438c" x="210" y="0" width="100" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[戶籍縣市]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="35" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="d07206c8-f930-4483-a5d0-f351b3d4a64b" stretchType="RelativeToBandHeight" x="0" y="0" width="80" height="35"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8cbbcc1d-1a7f-45c1-ab83-9b6bfe275f93" stretchType="RelativeToBandHeight" x="80" y="0" width="130" height="35"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="8e7d76f4-af41-4f7a-9482-4a0562d219d7" stretchType="RelativeToBandHeight" x="210" y="0" width="100" height="35"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="7a5fb22a-e0f8-4dfb-a996-9ddc20f8b849" stretchType="RelativeToBandHeight" x="310" y="0" width="120" height="35"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="ebaa18ed-68ee-4be0-8f4b-96cdc04e348f" stretchType="RelativeToBandHeight" x="430" y="0" width="120" height="35"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="dbcb2d6b-8973-4575-8d61-53516bee2779" stretchType="RelativeToTallestObject" x="0" y="0" width="80" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serialNo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="78c8daab-924f-468a-802a-dd9af37a49e1" stretchType="RelativeToTallestObject" x="80" y="0" width="130" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12"/>
+					<paragraph leftIndent="2" rightIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fileNumber}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="34f334f2-391f-42d9-88ea-d6f4b3e97720" stretchType="RelativeToTallestObject" x="310" y="0" width="120" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12"/>
+					<paragraph leftIndent="2" rightIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="97914d90-c945-490e-8a2b-b516d172e0fe" stretchType="RelativeToTallestObject" x="430" y="0" width="120" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12"/>
+					<paragraph leftIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{taxpayerName}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="70614ac6-3bda-42e0-8262-d274b0dca887" stretchType="RelativeToTallestObject" x="210" y="0" width="100" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="12"/>
+					<paragraph leftIndent="2" rightIndent="1"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{addr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

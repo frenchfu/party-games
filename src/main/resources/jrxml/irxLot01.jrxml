@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="irxLot01" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="7f03e2a0-36c4-48c8-aefd-0a4c54b1882b">
+	<property name="ireport.zoom" value="1.8150000000000006"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="dataset1" uuid="06c22003-0663-42fd-91ad-1c1b4de28ffa"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String">
+		<defaultValueExpression><![CDATA["../"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="irxLot_list" class="net.sf.jasperreports.engine.data.JRMapCollectionDataSource"/>
+	<parameter name="rewards" class="java.lang.Object"/>
+	<parameter name="drowRocDate" class="java.lang.String"/>
+	<parameter name="subDatas1" class="net.sf.jasperreports.engine.data.JRBeanCollectionDataSource"/>
+	<parameter name="subReport1" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="printRocDate" class="java.lang.String"/>
+	<parameter name="printDate" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="104">
+			<textField>
+				<reportElement uuid="d31b9603-064a-4534-89bb-5427872c7298" x="0" y="0" width="555" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="18" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["在家e報稅 好禮大Fun送"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dbb91a73-1786-4778-958d-f25cc23e4f91" x="0" y="26" width="555" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rewards}.getYr()+"年度綜合所得稅結算申報全國性抽獎活動"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="dbb91a73-1786-4778-958d-f25cc23e4f91" x="0" y="52" width="555" height="26"/>
+				<textElement textAlignment="Center">
+					<font fontName="標楷體" size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rewards}.getGroupNm()+" "+$P{rewards}.getItemNmTittle()+" "+$P{rewards}.getItemNm()+" "+$P{rewards}.getQuota()+"名"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d31b9603-064a-4534-89bb-5427872c7298" x="0" y="78" width="555" height="26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="標楷體" size="18" isBold="true" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["中獎名單"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="33">
+			<subreport>
+				<reportElement uuid="fc71caab-a205-468f-adde-ead8b02043b2" stretchType="RelativeToBandHeight" x="2" y="0" width="104" height="30"/>
+				<dataSourceExpression><![CDATA[$P{subDatas1}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{subReport1}]]></subreportExpression>
+			</subreport>
+		</band>
+		<band height="120">
+			<frame>
+				<reportElement uuid="5da21f43-95fa-48b5-9d21-11a3ec9b09a8" x="303" y="0" width="252" height="120"/>
+				<textField>
+					<reportElement uuid="a67aef2f-3c4d-4de4-927a-aa75346d619c" x="0" y="15" width="68" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA["機關代表人："]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a67aef2f-3c4d-4de4-927a-aa75346d619c" x="0" y="50" width="68" height="20"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA["見證人："]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="a67aef2f-3c4d-4de4-927a-aa75346d619c" x="0" y="85" width="252" height="20"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="標楷體"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{drowRocDate}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement uuid="ec577734-96a6-4860-9e0d-b281184cf075" x="14" y="0" width="40" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="標楷體"/>
+				</textElement>
+				<textFieldExpression><![CDATA["第"+$V{PAGE_NUMBER}+"頁"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="ec577734-96a6-4860-9e0d-b281184cf075" x="54" y="0" width="60" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="標楷體"/>
+				</textElement>
+				<textFieldExpression><![CDATA["／共"+$V{PAGE_NUMBER}+"頁"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ec577734-96a6-4860-9e0d-b281184cf075" x="114" y="0" width="152" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="標楷體"/>
+				</textElement>
+				<textFieldExpression><![CDATA["列印時間："+$P{printDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

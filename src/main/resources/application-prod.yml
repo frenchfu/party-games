@@ -1,0 +1,30 @@
+runtime:
+  env: prod
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 300MB
+      max-request-size: 300MB
+  security:
+    restrict-allow-origin: 'XXXXXXXXX'
+  freemarker:
+    cache: false
+    suffix: .html
+    charset: utf-8
+    template-loader-path: classpath:/templates/
+logging:
+  level:
+    root: INFO
+  charset:
+    console: utf-8
+allowed:
+  origins: frenchbingo.freedynamicdns.net,http://frenchbingo.freedynamicdns.net,http://59.124.4.178,59.124.4.178
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,11 @@
+#IDE
+.classpath
+.idea*
+epay.iml
+.project
+.settings*
+
+
+#build result
+/build/*
+/target/*

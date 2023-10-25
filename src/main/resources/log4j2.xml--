@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+    <Properties>
+        <Property name="LOG_TAX">PIRXLOT</Property>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %M-%m%n</Property>
+        <Property name="LOG_PATH">/PETAX/${LOG_TAX}/log</Property>
+        <Property name="LOG_SIZE">2048 MB</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="RollingFile">
+            <FileName>${LOG_PATH}/party-games.log</FileName>
+            <FilePattern>${LOG_PATH}/party-games.log.%d{yyyy-MM-dd}.log</FilePattern>
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>

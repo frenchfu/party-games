@@ -1,0 +1,1 @@
+export const TOGGLE_SOLUTION_DETAIL_DIALOG_VISIBLE = 'toggle_solution_detail_dialog_visible';

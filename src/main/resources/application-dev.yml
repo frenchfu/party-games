@@ -1,0 +1,27 @@
+runtime:
+  env: dev
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 300MB
+      max-request-size: 300MB
+  env: dev
+  security:
+    restrict-allow-origin: 'localhost,localhost:3000,localhost:8080,localhost'
+logging:
+  level:
+    root: INFO
+  charset:
+    console: utf-8
+  #允許使用的domain host
+allowed:
+  origins: localhost,http://localhost:3000,http://localhost:8099,localhost:8080
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
