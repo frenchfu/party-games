@@ -14,13 +14,6 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     time-zone: UTC
   #提供畫面內容
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
-  view:
-    prefix: /WEB-INF/jsp/
-    suffix: .jsp
   session:
 #    store-type: jdbc
 #    jdbc:
@@ -36,4 +29,4 @@ server:
       enabled: false
     path: /error
 jwt:
-  secret: irxLotSecretAptkEnJwt
+  secret: mypartySecret
