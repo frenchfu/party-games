@@ -49,7 +49,7 @@ export const checkBingoApi = async () => {
 export const getCanCheckedApi = async () => {
   
   return await axios
-    .post('api/bingo/check-click', {})
+    .post('api/bingo/check-cab-click', {})
     .then((response) => {
       if (response) {
         return response.data;

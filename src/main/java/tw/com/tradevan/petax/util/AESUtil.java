@@ -1,6 +1,6 @@
 package tw.com.tradevan.petax.util;
 
-import tw.com.tradevan.petax.irxlot.constant.exception.IrxLotException;
+import tw.com.fu.game.party.constant.exception.PartyGamesException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -42,11 +42,11 @@ public class AESUtil {
 		return byte2hex(encrypted);
 	}
 
-	public static String decrypt(String src, String key, String iv) throws IrxLotException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+	public static String decrypt(String src, String key, String iv) throws PartyGamesException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 		//解密前資料："+src);
 		Security.setProperty("crypto.policy", "unlimited");
 		if (key == null || key.length() != 32) {
-			throw new IrxLotException("-9","key must be 256 bits.");
+			throw new PartyGamesException("-9","key must be 256 bits.");
 		}
 		byte[] raw = key.getBytes();
 		SecretKeySpec skewSpec = new SecretKeySpec(raw, KEY_AES);

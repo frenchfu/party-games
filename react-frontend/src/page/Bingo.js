@@ -25,13 +25,6 @@ const Bingo = () => {
       });    
     const [cellValuesMap, setCellValuesMap] = useState(result);
 
-    //const cellValuesMap = Array.from({ length: 25 }, (_, index) => ({
-     //   key: index + 1,
-      //  value: 25 - index,
-    //}));    
-
-
-
     const {
         handleSubmit
       } = useForm();    
@@ -151,23 +144,6 @@ const Bingo = () => {
                 return;
 
             }
-            // if (response.code === '000') {
-            //     sessionStorage.setItem('account', response.result.account);
-            //     sessionStorage.setItem('flashToken', response.result.flashToken);
-            //     sessionStorage.setItem('jwtKey', response.result.token);
-            //     sessionStorage.setItem('token', response.result.token);
-
-            //     if(sentData.mode == 'LOT'){
-            //         navigate("/irxlot/lottery-index");
-            //     }else{
-            //         navigate("/irxlot/admin-lot-rewards-index");
-            //     }
-                
-            // }else{
-            //     setErrMessage(response.message);
-            //     setShowAlert(true);
-            //     return;
-            // }
         }else{
             //do nothing
         }
@@ -197,10 +173,6 @@ const Bingo = () => {
     };
 
     const countConnection = (selectedCellsInput) =>{ 
-
-        console.log("hi");
-        console.log(selectedCellsInput);
-    
 
         const selectedGrid = Array.from({ length: 5 }, () => Array(5).fill(false));
 
@@ -236,8 +208,7 @@ const Bingo = () => {
         if (selectedGrid[0][4] && selectedGrid[1][3] && selectedGrid[2][2] && selectedGrid[3][1] && selectedGrid[4][0]) {
             connectionCount++;
         }
-    
-        console.log(connectionCount);
+
         setConnectionNum(connectionCount);
 
     };

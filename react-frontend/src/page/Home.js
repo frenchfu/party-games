@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from 'react-hook-form';
 import  Bootbox  from  'bootbox-react';
 import { useSelector, useDispatch } from 'react-redux';
-import {doPostLogin, getValidateCode} from '../apis/loginApi';
 import { BsFillEyeFill ,BsEyeSlashFill} from 'react-icons/bs';
 //import { useNotify } from '../utilities/useCustomHooks';
 
@@ -39,46 +38,6 @@ const Home = () => {
           updateState(value);
         }
       };
-
-      const {
-        handleSubmit
-      } = useForm();
-      
-      const loginFormOnSubmit = async(data) => {
-        const sentData = {
-            mode,
-            username,
-            password,
-            verifyCode,
-            verifyToken
-        }
-        if(checkSentData(sentData)){
-
-            //await reloadImg();
-            let response = await doPostLogin(sentData);
-            if (response.code === '000') {
-                sessionStorage.setItem('account', response.result.account);
-                sessionStorage.setItem('flashToken', response.result.flashToken);
-                sessionStorage.setItem('jwtKey', response.result.token);
-                sessionStorage.setItem('token', response.result.token);
-
-                if(sentData.mode == 'LOT'){
-                    navigate("/party-games/lottery-index");
-                }else{
-                    navigate("/party-games/admin-lot-rewards-index");
-                }
-                
-            }else{
-                setErrMessage(response.message);
-                setShowAlert(true);
-                return;
-            }
-        }else{
-            //do nothing
-        }
-       
-
-      }
 
     const handleClose = () => {
 		return setShowAlert(false);

@@ -596,3 +596,10 @@ a {
     color: red;
 }
 
+.form-label {
+    margin-left: 10px; /* 根据需要调整左边距 */
+  }
+
+  .form-title {
+    margin-top: 20px; /* 根据需要调整上边距 */
+  }  

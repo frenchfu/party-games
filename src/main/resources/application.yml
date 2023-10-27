@@ -14,6 +14,13 @@ spring:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     time-zone: UTC
   #提供畫面內容
+  mvc:
+    view:
+      prefix: /
+      suffix: .html
+  #view:
+  #  prefix: /
+  #  suffix: .html
   session:
 #    store-type: jdbc
 #    jdbc:
