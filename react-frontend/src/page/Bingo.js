@@ -150,6 +150,16 @@ const Bingo = () => {
                 sessionStorage.setItem('name', response.result.name);
                 sessionStorage.setItem('no', response.result.no);
                 sessionStorage.setItem('token', response.result.token);
+                (async () => {
+                    let response = await drowApi();
+                    if (response.code === '000') {
+                      setCellValuesMap(response.result.bingoCard);
+                    }else{
+                        setErrMessage(response.message);
+                        setShowAlert(true);
+                        return;
+                    }
+                  })();
                 setHasSign("Y");
 
             }else{
