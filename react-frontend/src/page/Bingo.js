@@ -2,18 +2,20 @@ import React, { useState , useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import  Bootbox  from  'bootbox-react';
 import {doPostSign} from '../apis/playerApi'
-import {drowApi, checkBingoApi , getCanCheckedApi} from '../apis/bingoApi'
+import {drowApi, checkBingoApi , getCanCheckedApi, doLoadPlayerApi} from '../apis/bingoApi'
 
 
 const Bingo = () => {
 
     const [selectedCells, setSelectedCells] = useState([]);
+    const [canSelectedCellsValue, setCanSelectedCellsValue] = useState([]);
     const [ hasSign, setHasSign ] = useState("N");//判斷是否已報名
     const [ mode, setMode ] = useState("sign");//模式
     const [ name, setName ] = useState("");//玩家姓名
     const [ no, setNo ] = useState("");//玩家編號
     const [showAlert, setShowAlert] = useState('');
     const [errMessage, setErrMessage] = useState('');
+    const [isReward , setIsReward] = useState("N");
     const [connectionNum, setConnectionNum] = useState(0);
     const result = {};
     const inputArray = Array.from({ length: 25 }, (_, index) => ({
@@ -42,8 +44,6 @@ const Bingo = () => {
           updateState(value);
         }
 
-        console.log("hi1");
-       
 
       };      
 
@@ -63,6 +63,23 @@ const Bingo = () => {
                           return;
                       }
                     })();
+                //load player
+                (async () => {
+                    let response = await doLoadPlayerApi();
+                    if (response.code === '000') {
+                        sessionStorage.setItem('name', response.result.name);
+                        sessionStorage.setItem('no', response.result.no);
+                        setName(response.result.name);
+                        setNo(response.result.no);
+                        setIsReward(response.result.isReward)
+                        setHasSign("Y");
+                    }else{
+                        setErrMessage(response.message);
+                        setShowAlert(true);
+                        return;
+                    }
+                  })();
+
         }else{
             
 
@@ -70,8 +87,6 @@ const Bingo = () => {
         }
 
       }, []);  
-
-
 
     const containerStyle = {
         display: 'flex',
@@ -82,7 +97,7 @@ const Bingo = () => {
     };
 
     const tableStyle = {
-        border: '2px solid #000',
+        border: '2px solid white',
         width: '100%',
     };
 
@@ -91,13 +106,14 @@ const Bingo = () => {
         height: '50px',
         textAlign: 'center',
         lineHeight: '50px',
-        border: '1px solid #000',
+        border: '1px solid white',
         cursor: 'pointer', // 鼠标指针样式为手型
     };
 
     const headerCellStyle = {
         ...cellStyle,
         fontSize: '16px',
+        color: '#f10ecc'
     };
 
     const handleClose = () => {
@@ -126,7 +142,6 @@ const Bingo = () => {
         }
         if(checkSentData(sentData)){
 
-
             sentData.mode = mode;
             let response = await doPostSign(sentData);
 
@@ -153,23 +168,44 @@ const Bingo = () => {
 
 
     // 处理单元格点击事件
-    const handleCellClick = async (cellValue, value) => {
+    const handleCellClick = async (id, value) => {
 
-        //let checkCanCheckResponse = getCanCheckedApi();
-       console.log(value);
-
-
-        let resultSeceletedCells = null;
-        if (selectedCells.includes(cellValue)) {
-            // 如果单元格已被选中，从选中单元格列表中移除
-            resultSeceletedCells = selectedCells.filter((value) => value !== cellValue);
-            setSelectedCells(resultSeceletedCells);
-        } else {
-            // 否则将单元格添加到选中单元格列表中
-            resultSeceletedCells = [...selectedCells, cellValue];
-            setSelectedCells(resultSeceletedCells);
+        if(isReward === 'Y'){
+            //donothing and return
+            return;
         }
-        countConnection(resultSeceletedCells);
+
+        
+        (async () => {
+            let checkCanCheckResponse = await getCanCheckedApi();
+            setCanSelectedCellsValue(checkCanCheckResponse.result.canCheckdNums);
+            let canCheckdNumSet =  checkCanCheckResponse.result.canCheckdNums;
+            if (checkCanCheckResponse.code === '000') {
+                if(canCheckdNumSet.includes(value+"")){
+                    let resultSeceletedCells = [...selectedCells, id];
+                    resultSeceletedCells = resultSeceletedCells.
+                    filter(cell =>  canCheckdNumSet.includes(cellValuesMap[cell+""]));
+                    setSelectedCells(resultSeceletedCells);
+                    countConnection(resultSeceletedCells);
+                }else{
+                    setErrMessage("號碼:"+value+"尚未被選中");
+                    setShowAlert(true);
+                    let resultSeceletedCells = [...selectedCells];
+                    resultSeceletedCells = resultSeceletedCells.
+                    filter(cell =>  canCheckdNumSet.includes(cellValuesMap[cell+""]));
+                    setSelectedCells(resultSeceletedCells);
+                    countConnection(resultSeceletedCells);
+                }
+                //donothing
+            }else{
+
+                setErrMessage("無法取得可選號碼");
+                setShowAlert(true);
+                
+            }
+
+          })();
+
     };
 
     const countConnection = (selectedCellsInput) =>{ 
@@ -213,10 +249,23 @@ const Bingo = () => {
 
     };
 
+    const checkBingo = async() =>{
 
-    const checkBingo = () =>{
+        if(isReward === 'Y'){
+            //donothing and return
+            return;
+        }        
 
-
+        let response = await checkBingoApi(selectedCells);
+        if (response.code === '000') {
+            //恭喜中獎了喔
+            setIsReward(response.result.isReward);
+            setErrMessage("恭喜您 完成賓果了!!!");
+            setShowAlert(true);
+        }else{
+            setErrMessage(response.message);
+            setShowAlert(true);
+        }
 
     }
 
@@ -250,13 +299,13 @@ const Bingo = () => {
                 <br/>
                 <form onSubmit={handleSubmit(loginFormOnSubmit)}>   
                     <div className="form-group">
-                        <label htmlFor="no" className="form-label">　　編　號:</label>
+                        <label htmlFor="no" className="form-label common-word">　　編　號:</label>
                         <input
                                 type="text"
                                 id="no"
                                 name="no"
-                                maxLength="10" // 最大长度为3位
-                                pattern="\d*" // // 正则表达式验证，只允许三位数字
+                                maxLength="10" 
+                                pattern="\d*"
                                 placeholder={mode=='sign'?"您的幸運數字 例:12345" : "您之前的編號"}
                                 inputMode="numeric" 
                                 value={no}
@@ -265,7 +314,7 @@ const Bingo = () => {
                     </div>
                 
                     <div className="form-group">
-                        <label htmlFor="name" className="form-label">請輸入大名:</label>
+                        <label htmlFor="name" className="form-label common-word">請輸入大名:</label>
                         <input type="text" id="name" name="name"  onChange={handleChange}  value={name}   placeholder={mode=='sign'?"例:王大明" : "您之前輸入的大名"}  />
                     </div>
 
@@ -284,20 +333,30 @@ const Bingo = () => {
     } else{
 
         return (
-        <>    
+        <>
+            <Bootbox show={showAlert} 
+				type={"alert"}  
+				message={errMessage}  
+				onClose={handleClose} 
+			/>          
             <div style={containerStyle} className="bingo-card">
                 <h1>Bingo Card</h1>
                 <h2>編號:{no}</h2>
                 <h2>{name}</h2>
                 <h3>已完成: {connectionNum} 條線</h3>
+                {
+                    (isReward ==='Y') &&(
+                        <h4>您已賓果請等待主持人通知領獎</h4>
+                    )
+                }
                 <table style={tableStyle}>
                     <thead>
                         <tr>
-                            <th style={headerCellStyle}>B</th>
-                            <th style={headerCellStyle}>I</th>
-                            <th style={headerCellStyle}>N</th>
-                            <th style={headerCellStyle}>G</th>
-                            <th style={headerCellStyle}>O</th>
+                            <th className='anty-bright-style' style={headerCellStyle}>B</th>
+                            <th className='anty-bright-style' style={headerCellStyle}>I</th>
+                            <th className='anty-bright-style' style={headerCellStyle}>N</th>
+                            <th className='anty-bright-style' style={headerCellStyle}>G</th>
+                            <th className='anty-bright-style' style={headerCellStyle}>O</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -317,6 +376,7 @@ const Bingo = () => {
                                             style={cellStyleWithColor}
                                             name={cell}
                                             onClick={() => handleCellClick(key, cell)}
+                                            className='bright-style bright-blue-border'
                                         >
                                             {cell}
                                         </td>
@@ -327,7 +387,10 @@ const Bingo = () => {
                         <tr>
                             <td colSpan={5} style={{textAlign:'center' , border: 'none'}}>
                                 <div className="text-center" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                                        <button onClick={checkBingo} className="btn-lg btn-primary w-50" >賓果</button>{/*btn-secondary  */}
+                                        <button onClick={checkBingo}
+                                         className={`btn-lg w-50 ${isReward === 'Y' ? 'btn-secondary' : 'btn-primary'}`}
+                                         >賓果</button>
+                                         {/* TODO 當 isReward==='Y' 時 className =  btn-secondary  btn-lg btn-primary w-50*/}
                                 </div>  
                             </td>                            
                         </tr>           

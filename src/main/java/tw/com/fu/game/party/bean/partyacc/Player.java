@@ -21,7 +21,7 @@ public class Player {
     String no;//編號
     String name;//輸入的姓名
     Map<String,String> bingoCard;//賓果卡
-    YesNo bingoReward;
+    YesNo isReward;
     Long score;//分數
 
 

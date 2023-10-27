@@ -2,15 +2,13 @@ package tw.com.fu.game.party.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tw.com.fu.game.party.bean.UserDetail;
 import tw.com.fu.game.party.bean.partyacc.Player;
 import tw.com.fu.game.party.constant.enums.YesNo;
 import tw.com.fu.game.party.service.plater.PlayerAccountService;
 import tw.com.fu.game.party.vo.bingo.request.AdminChoiceNumRequest;
+import tw.com.fu.game.party.vo.bingo.request.CheckBingoRequest;
 import tw.com.fu.game.party.vo.bingo.response.AdminChoiceNumResponse;
 import tw.com.fu.game.party.vo.bingo.response.CheckBingoResponse;
 import tw.com.fu.game.party.vo.bingo.response.CheckCanClickResponse;
@@ -42,7 +40,6 @@ public class BingoController {
             Arrays.asList("5","9","13","17","21")
     );
 
-
     public static Set<String> CAN_CLICK_SET = new HashSet<>();
     public static Integer REWARD_CONNECTION_NUM = 3;//多少線可以中獎
     public static Integer REWARD_NUM_MAX = 7;//可以中獎的人數
@@ -52,36 +49,73 @@ public class BingoController {
     public static final String BASE_URL = "/api/bingo";
     public static final String DROW_A_CARD = "/drow-a-card";
     public static final String CHECK_BINGO = "/check-bingo";
-    public static final String CHECK_CAN_CLICK = "/check-cab-click";
+    public static final String CHECK_CAN_CLICK = "/check-can-click";
     public static final String ADMIN_CHOICE_NUM = "/admin-choice-num";
+    public static final String DO_LOAD_PLAYER = "/do-load-player";
+
+
+    @PostMapping(BingoController.DO_LOAD_PLAYER)
+    public ApiResponse<Player> doLoadPlayer(@AuthenticationPrincipal UserDetail userDetail) {
+        ApiResponse<Player> result = new ApiResponse<>();
+        Player player = playerAccountService.getUser(userDetail);
+        result.setResult(player);
+        return result;
+
+    }
 
 
     @PostMapping(BingoController.CHECK_BINGO)
-    public ApiResponse<CheckBingoResponse> checkBingo(@AuthenticationPrincipal UserDetail userDetail) {
+    public ApiResponse<CheckBingoResponse> checkBingo(@AuthenticationPrincipal UserDetail userDetail,@RequestBody CheckBingoRequest checkBingoRequest) {
 
         ApiResponse<CheckBingoResponse> result = new ApiResponse<>();
         CheckBingoResponse checkBingoResponse = new CheckBingoResponse();
         Player player = playerAccountService.getUser(userDetail);
+
+        if(player.getIsReward() == YesNo.Y){
+            checkBingoResponse.setIsReward(YesNo.Y);
+            result.setResult(checkBingoResponse);
+            return result;
+        }
+
+
         Map<String, String> bingoCard = player.getBingoCard();
-
-        Set<String> choiceSet = this.getChoiceMap(CAN_CLICK_SET,bingoCard);
+        Set<String> choiceSet = this.getChoiceMap(CAN_CLICK_SET, bingoCard);
+        choiceSet = this.doRemoveNotChecked(choiceSet, checkBingoRequest.getCheckNums());
         int connectionNum = this.getConnectionNum(choiceSet);
-        if(connectionNum >= REWARD_CONNECTION_NUM){
 
+        if(player.getIsReward() == YesNo.Y){//已中獎 不用判斷
+            checkBingoResponse.setIsReward(YesNo.Y);
+        }else if(connectionNum >= REWARD_CONNECTION_NUM){
             boolean isReward = this.doGetBingo(player);
             if(isReward){
                 checkBingoResponse.setIsReward(YesNo.Y);
+                player.setIsReward(YesNo.Y);
+                playerAccountService.updatePlayer(player);
             }else{
-                //do nothing
+                result.setCode("-1");
+                result.setMessage("抱歉 因為你點賓果的速度不夠快 中獎人數已滿");
+                checkBingoResponse.setIsReward(YesNo.N);
             }
-
         }else{
-            //do nothing
+            result.setCode("-1");
+            result.setMessage("連線數不足喔 需要完成"+REWARD_CONNECTION_NUM+"條線!");
+            checkBingoResponse.setIsReward(YesNo.N);
         }
-
         result.setResult(checkBingoResponse);
         return result;
 
+    }
+
+    private Set<String> doRemoveNotChecked(Set<String> canChoiceSet , Set<Integer> requestCheckNums) {
+        // 创建一个新的集合，用于存储已经通过检查的元素
+        Set<String> checkedSet = new HashSet<>(canChoiceSet);
+        // 遍历canChoiceSet，检查每个元素是否出现在requestCheckNums中，如果没有，就从checkedSet中移除
+        for (String element : canChoiceSet) {
+            if (!requestCheckNums.contains(Integer.valueOf(element))) {
+                checkedSet.remove(element);
+            }
+        }
+        return checkedSet;
     }
 
     private synchronized boolean doGetBingo(Player player) {
@@ -99,12 +133,16 @@ public class BingoController {
     private int getConnectionNum(Set<String> choiceSet) {
         int resultNum = 0;
         for(List<String> loopList : CONNECTION_CHECK_LIST){
+            boolean hasThisLine = true;
             for(String loopNum : loopList){
                 if(!choiceSet.contains(loopNum)){
+                    hasThisLine = false;
                     break;
                 }
             }
-            resultNum++;
+            if(hasThisLine){
+                resultNum++;
+            }
         }
         return resultNum;
     }
@@ -113,7 +151,7 @@ public class BingoController {
         Set<String> resultSet = new HashSet<>();
         for(String key : bingoCard.keySet()){
             if(canClickSet.contains(bingoCard.get(key))){
-                resultSet.add(bingoCard.get(key));
+                resultSet.add(key);
             }
         }
         return resultSet;

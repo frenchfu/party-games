@@ -8,7 +8,7 @@ a {
 }
 
 .index_bg {
-    background: #00A6A6 url(../../assets/images/bg03.jpg) top center no-repeat;
+    background: #00A6A6 url(../../assets/images/bg02.webp) top center no-repeat;
     background-size: 100% auto;
     /* width: 100%; */
     height: auto;
@@ -432,7 +432,7 @@ a {
 @media screen and (max-width:767px) {   
 
     .index_bg {
-        background: #00A6A6 url(../../assets/images/bg03.jpg) top center no-repeat;
+        background: #00A6A6 url(../../assets/images/bg02.webp) top center no-repeat;
         background-size: 100% auto;
         /* width: 100%; */
         height: auto;
@@ -603,3 +603,51 @@ a {
   .form-title {
     margin-top: 20px; /* 根据需要调整上边距 */
   }  
+
+  tbody {
+    border: 2px solid rgb(95, 143, 206);
+  }
+
+  td {
+    border: 2px solid rgb(95, 143, 206);
+  }
+
+  tr {
+    border: 2px solid rgb(95, 143, 206);
+  }  
+  
+  table {
+    border-collapse: separate;
+    border-spacing: 0; /* 可能需要重置边框间距 */
+    border: 2px solid transparent #0caadf; /* 重置表格的默认边框为透明色 */
+  }
+  
+  /* 设置<th>和<td>元素的边框颜色为亮蓝色 */
+  th.bright-blue-border, td.bright-blue-border {
+    border: 2px solid #00BFFF; /* 亮蓝色边框 */
+  }
+
+  /* 给<h>标签内的文字设置亮色系 */
+  h1, h2, h3, h4, h5, h6 {
+    color: #FF5733; /* 这里使用了亮色系的颜色代码，您可以根据需要进行调整 */
+  }
+
+  .common-word {
+    color: #f10ecc; /* 这里使用了亮色系的颜色代码，您可以根据需要进行调整 */
+    text-shadow: 0 0 50px #fff,0 0 150px #fff,0 0 20px #fff;
+  }    
+
+  /* 通用的亮色系类 */
+.bright-style {
+    border: 5px solid black; /* 给元素添加黑色边框 */
+    color: #f7f3f6; /* 设置文字颜色为亮色系，示例中使用橙色 */
+  }
+
+  .anty-bright-style {
+    border: 5px solid rgb(248, 242, 242); /* 给元素添加黑色边框 */
+    color: #080006; /* 设置文字颜色为亮色系，示例中使用橙色 */
+  }  
+  
+  .bright-blue-border {
+    border: 2px solid #00BFFF; /* 亮蓝色边框 */
+  }

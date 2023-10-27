@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/party-games/static/js/main.6f1b8981.js",
+    "main.js": "/party-games/static/js/main.0bf880ff.js",
     "index.html": "/party-games/index.html",
-    "main.6f1b8981.js.map": "/party-games/static/js/main.6f1b8981.js.map"
+    "main.0bf880ff.js.map": "/party-games/static/js/main.0bf880ff.js.map"
   },
   "entrypoints": [
-    "static/js/main.6f1b8981.js"
+    "static/js/main.0bf880ff.js"
   ]
 }

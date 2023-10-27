@@ -111,7 +111,15 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/player/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/Version-jsp")
-                .permitAll();
+                .permitAll()
+                .antMatchers(HttpMethod.POST, "/api/bingo-admin/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/bingo-admin/**")
+                .permitAll()
+        ;
+
+
+
 
 
 

@@ -28,7 +28,7 @@ public class PlayerDao {
         if(StringUtils.isEmpty(inputPlayer.getNo()) || PLAYER_MAP.get(inputPlayer.getNo()) == null){
             targetPlayer = Player.builder()
                     .no(inputPlayer.getNo())
-                    .score(0l).bingoReward(YesNo.N)
+                    .score(0l).isReward(YesNo.N)
                     .bingoCard(null)
                     .name(inputPlayer.getName())
                     .build();

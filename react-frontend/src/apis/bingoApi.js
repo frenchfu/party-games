@@ -25,10 +25,13 @@ export const drowApi = async () => {
  * 確認是否已賓果
  * @returns 
  */
-export const checkBingoApi = async () => {
+export const checkBingoApi = async (selectedCells) => {
   
   return await axios
-    .post('api/bingo/check-bingo', {})
+    .post('api/bingo/check-bingo', 
+    {
+      checkNums:selectedCells
+    })
     .then((response) => {
       if (response) {
         return response.data;
@@ -49,7 +52,7 @@ export const checkBingoApi = async () => {
 export const getCanCheckedApi = async () => {
   
   return await axios
-    .post('api/bingo/check-cab-click', {})
+    .post('api/bingo/check-can-click', {})
     .then((response) => {
       if (response) {
         return response.data;
@@ -62,6 +65,28 @@ export const getCanCheckedApi = async () => {
     });
     
 };
+
+/**
+ * 重新取得玩家資訊
+ * @returns 
+ */
+export const doLoadPlayerApi = async () => {
+  
+  return await axios
+    .post('api/bingo/do-load-player', {})
+    .then((response) => {
+      if (response) {
+        return response.data;
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      return err.response;
+    });
+    
+};
+
 
 
 

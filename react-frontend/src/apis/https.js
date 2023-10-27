@@ -19,6 +19,15 @@ const errorHandle = (status, message) => {
       sessionStorage.removeItem('no')
       window.location = (`${window.location.origin}/party-games`);
       break;
+    case 402:
+      tip('遊戲已重啟 請重新報名');
+      alert('遊戲已重啟 請重新報名');
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('persist:root');
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('no')
+      window.location = (`${window.location.origin}/party-games`);
+      break;            
     case 403:
     case 406:   
      alert("權限錯誤");

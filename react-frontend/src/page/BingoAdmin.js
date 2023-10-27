@@ -1,19 +1,17 @@
 import React, { useState , useEffect} from 'react';
 import { useForm } from 'react-hook-form';
 import  Bootbox  from  'bootbox-react';
-import {doPostSign} from '../apis/playerApi'
-import {drowApi, checkBingoApi} from '../apis/bingoApi'
+import { choiceNumApi, cancelNumApi, doAdminReloadApi, doResetGameApi , doSetGetRewardConnectionNumApi, doSetMaxRewardNumApi} from '../apis/bingoAdminApi'
 
 const BingoAdmin = () => {
 
     const [selectedCells, setSelectedCells] = useState([]);
-    const [ hasSign, setHasSign ] = useState("N");//判斷是否已報名
-    const [ mode, setMode ] = useState("sign");//模式
-    const [ name, setName ] = useState("");//玩家姓名
-    const [ no, setNo ] = useState("");//玩家編號
+    const [rewardPlayers, setRewardPlayers] = useState([]);
+    const [getRewardConnectionNum, setGetRewardConnectionNum] = useState(0);
+    const [rewardNumMax, setRewardNumMax] = useState(0);
+    const [rewardNum, setRewardNum] = useState(0);
     const [showAlert, setShowAlert] = useState('');
     const [errMessage, setErrMessage] = useState('');
-    const [connectionNum, setConnectionNum] = useState(0);
     const result = {};
     const inputArray = Array.from({ length: 25 }, (_, index) => ({
         key: index + 1,
@@ -22,37 +20,14 @@ const BingoAdmin = () => {
       inputArray.forEach(item => {
         result[item.key] = item.value.toString();
       });    
-    const [cellValuesMap, setCellValuesMap] = useState(result);
-
-    //const cellValuesMap = Array.from({ length: 25 }, (_, index) => ({
-     //   key: index + 1,
-      //  value: 25 - index,
-    //}));    
-
-
-
-    const {
-        handleSubmit
-      } = useForm();    
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        
-        const stateUpdateFunctions = {
-          no: setNo,
-          name: setName,
-        };
-        
-        const updateState = stateUpdateFunctions[name];
-        if (updateState) {
-          updateState(value);
-        }
-
+    const [cellValuesMap, setCellValuesMap] = useState(result);    
     
-      };      
 
     useEffect(() => {
 
+        (async () => {
+            doAdminReload();
+          })();
 
       }, []);  
 
@@ -89,92 +64,127 @@ const BingoAdmin = () => {
 		return setShowAlert(false);
 	}
 
+    const doAdminReload = async()=>{
 
-    const checkSentData = (sentData) => {
-		
-        if(!!!sentData.name){
-            setErrMessage("請輸入大名");
-        } else if (!!!sentData.no){
-            setErrMessage("請輸入編號");        
-        } else{
-            return  true;
+        let response = await doAdminReloadApi();
+        if (response.code === '000') {
+            setSelectedCells(response.result.canCheckdNums);
+            setRewardPlayers(response.result.rewardPlayers);
+            setGetRewardConnectionNum(response.result.getRewardConnectionNum);
+            setRewardNumMax(response.result.rewardNumMax);
+            setRewardNum(response.result.rewardNum);
+        }else{
+            setErrMessage("更新資訊失敗");
+            setShowAlert(true);
         }
-        setShowAlert(true);
-        return false;
 
-	}
-
-
+    }
 
     // 处理单元格点击事件
     const handleCellClick = (cellValue) => {
 
-        let resultSeceletedCells = null;
-        if (selectedCells.includes(cellValue)) {
+        if (selectedCells.includes(cellValue+"")) {
             // 如果单元格已被选中，从选中单元格列表中移除
-            resultSeceletedCells = selectedCells.filter((value) => value !== cellValue);
-            setSelectedCells(resultSeceletedCells);
+            //todo 取消 選取的東西
+            (async () => {
+                let response = await cancelNumApi(cellValue);
+                if (response.code === '000') {
+                    //donothing
+                    setSelectedCells(response.result.canCheckdNums);
+                }else{
+                    setErrMessage("取消號碼失敗");
+                    setShowAlert(true);
+                }
+              })();
         } else {
-            // 否则将单元格添加到选中单元格列表中
-            resultSeceletedCells = [...selectedCells, cellValue];
-            setSelectedCells(resultSeceletedCells);
+
+            //todo  選取的東西
+            (async () => {
+                let response = await choiceNumApi(cellValue);
+                if (response.code === '000') {
+                    setSelectedCells(response.result.canCheckdNums);
+                }else{
+                    setErrMessage("選號失敗");
+                    setShowAlert(true);
+                }
+              })();
         }
-        countConnection(resultSeceletedCells);
     };
 
-    const countConnection = (selectedCellsInput) =>{ 
-
-        console.log("hi");
-        console.log(selectedCellsInput);
-    
-
-        const selectedGrid = Array.from({ length: 5 }, () => Array(5).fill(false));
-
-        // 根据已选择的单元格更新 selectedGrid
-        selectedCellsInput.forEach((cell) => {
-            const row = Math.ceil(cell / 5) - 1;
-            const col = (cell - 1) % 5;
-            selectedGrid[row][col] = true;
-        });
-    
-        // 初始化连接计数
-        let connectionCount = 0;
-    
-        // 检查每一行
-        for (let row = 0; row < 5; row++) {
-            if (selectedGrid[row].every((cell) => cell)) {
-                connectionCount++;
+    const handleSetRewardConnectionNum = () => {
+        const isConfirmed = window.confirm('您确定要重設中奖线数？');
+        if (isConfirmed) {
+            const newRewardConnectionNum = window.prompt('请输入新的中奖线数:');
+            if (newRewardConnectionNum !== null) {
+                if(isNaN(newRewardConnectionNum)){
+                    alert("您輸入的不是數字");
+                }else{
+                    (async () => {
+                        let response = await doSetGetRewardConnectionNumApi(newRewardConnectionNum);
+                        if (response.code === '000') {
+                            await doAdminReload();
+                        }else{
+                            setErrMessage("設定失敗");
+                            setShowAlert(true);
+                        }
+                      })();
+                }
             }
         }
+    };
     
-        // 检查每一列
-        for (let col = 0; col < 5; col++) {
-            if (selectedGrid.every((row) => row[col])) {
-                connectionCount++;
+    const handleSetRewardNumMax = () => {
+        const isConfirmed = window.confirm('您确定要重設中奖人數？');
+        if (isConfirmed) {
+            const newRewardNumMax = window.prompt('请输入新的最多中奖人数:');
+            if (newRewardNumMax !== null) {
+                if(isNaN(newRewardNumMax)){
+                    alert("您輸入的不是數字");
+                }else{
+                    (async () => {
+                        let response = await doSetMaxRewardNumApi(newRewardNumMax);
+                        if (response.code === '000') {
+                            await doAdminReload();
+                        }else{
+                            setErrMessage("設定失敗");
+                            setShowAlert(true);
+                        }
+                      })();
+                }
             }
         }
-    
-        // 检查对角线
-        if (selectedGrid[0][0] && selectedGrid[1][1] && selectedGrid[2][2] && selectedGrid[3][3] && selectedGrid[4][4]) {
-            connectionCount++;
-        }
-    
-        if (selectedGrid[0][4] && selectedGrid[1][3] && selectedGrid[2][2] && selectedGrid[3][1] && selectedGrid[4][0]) {
-            connectionCount++;
-        }
-    
-
     };
 
-
+    const handleResetGame = () => {
+        const isConfirmed = window.confirm('您确定要重置数据吗？');
+        if (isConfirmed) {
+            const isConfirmedAgain = window.confirm('您确定要重置数据吗？ 再次確認');
+            if(isConfirmedAgain){
+                const isConfirmedAgainAgain = window.confirm('您确定要重置数据吗？ 再一次確認 不能反悔了喔');
+                if(isConfirmedAgainAgain){
+                    (async () => {
+                        let response = await doResetGameApi();
+                        if (response.code === '000') {
+                            await doAdminReload();
+                        }else{
+                            setErrMessage("重啟遊戲失敗");
+                            setShowAlert(true);
+                        }
+                      })();
+                }
+            }
+        }
+    };    
 
         return (
         <>    
+            <Bootbox show={showAlert} 
+				type={"alert"}  
+				message={errMessage}  
+				onClose={handleClose} 
+			/>          
             <div style={containerStyle} className="bingo-card">
                 <h1>管理介面</h1>
-                <h2>編號:{no}</h2>
-                <h2>{name}</h2>
-                <h3>已完成: {connectionNum} 條線</h3>
                 <table style={tableStyle}>
                     <thead>
                         <tr>
@@ -191,7 +201,7 @@ const BingoAdmin = () => {
                                 {[1, 2, 3, 4, 5].map((col) => {
                                     let key = 5 * (row - 1) + col
                                     const cell = cellValuesMap[key];
-                                    const isCellSelected = selectedCells.includes(key);
+                                    const isCellSelected = selectedCells.includes(key+"");
                                     const cellStyleWithColor = {
                                         ...cellStyle,
                                         backgroundColor: isCellSelected ? 'red' : 'transparent',
@@ -201,6 +211,7 @@ const BingoAdmin = () => {
                                             id={key}
                                             style={cellStyleWithColor}
                                             onClick={() => handleCellClick(key)}
+                                            className='bright-style'
                                         >
                                             {cell}
                                         </td>
@@ -211,14 +222,35 @@ const BingoAdmin = () => {
                         <tr>
                             <td colSpan={5} style={{textAlign:'center' , border: 'none'}}>
                                 <div className="text-center" style={{ marginTop: '10px', marginBottom: '10px' }}>
-                                        <button className="btn-lg btn-primary w-50" >賓果</button>{/*btn-secondary  */}
+                                        <button onClick={doAdminReload} className="btn-lg btn-primary w-50" >更新資料</button>{/*btn-secondary  */}
                                 </div>  
                             </td>                            
                         </tr>           
                     </tbody>
                 </table>
+                    <div>
+                        中獎人數:{rewardNum}
+                    </div>
+                {
+                    rewardPlayers.map((player, index) => (
+                        <div key={index}>
+                            中獎人 編號 {player.no}, 大名 {player.name}
+                        </div>
+                    ))
+                }
+                <br></br>
+                <div className='bright-style'>
+                    幾條線可以中獎: {getRewardConnectionNum}　
+                    <button onClick={handleSetRewardConnectionNum}>設置需要連線數</button>
+                </div>
+                <div className='bright-style'>
+                    最多幾個人可以中獎: {rewardNumMax}　
+                    <button onClick={handleSetRewardNumMax}>設置可中獎人數</button>
+                </div>
+                <div className='bright-style'>
+                    <button onClick={handleResetGame}>重開遊戲</button>
+                 </div>
             </div>
-            
         </>
         );
     
