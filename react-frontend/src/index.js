@@ -6,6 +6,7 @@ import NoPage from "./page/NoPage";
 import Bingo from "./page/Bingo";
 import BingoAdmin from "./page/BingoAdmin"
 import  Logout  from "./page/Logout";
+import BingoAdminDashBoard from "./page/BingoAdminDashBoard";
 
 export default function App() {
   return (     
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="*" element={<NoPage />} />
           <Route path="/party-games/bingo" element={<Bingo />} />
           <Route path="/party-games/bingo-admin" element={<BingoAdmin />} />
+          <Route path="/party-games/bingo-admin-dash-board" element={<BingoAdminDashBoard />} />
         </Route>
         {/*
           <Route path="/party-games/admin-lot-rewards-index" element={<AdminLotRewardsIndex />} />

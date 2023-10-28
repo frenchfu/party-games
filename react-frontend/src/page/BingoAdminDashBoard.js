@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import  Bootbox  from  'bootbox-react';
 import { choiceNumApi, cancelNumApi, doAdminReloadApi, doResetGameApi , doSetGetRewardConnectionNumApi, doSetMaxRewardNumApi} from '../apis/bingoAdminApi'
 
-const BingoAdmin = () => {
+const BingoAdminDashBoard = () => {
 
     const [selectedCells, setSelectedCells] = useState([]);
     const [rewardPlayers, setRewardPlayers] = useState([]);
@@ -184,15 +184,24 @@ const BingoAdmin = () => {
 				onClose={handleClose} 
 			/>          
             <div style={containerStyle} className="bingo-card">
-                <h1>管理介面</h1>
+                    <h1>
+                        中獎人數:{rewardNum}
+                    </h1>
+                {
+                    rewardPlayers.map((player, index) => (
+                        <h2 key={index}>
+                            中獎人 編號 {player.no}, 大名 {player.name}
+                        </h2>
+                    ))
+                }
                 <table style={tableStyle}>
                     <thead>
                         <tr>
-                            <th style={headerCellStyle}>B</th>
-                            <th style={headerCellStyle}>I</th>
-                            <th style={headerCellStyle}>N</th>
-                            <th style={headerCellStyle}>G</th>
-                            <th style={headerCellStyle}>O</th>
+                            <th style={headerCellStyle}>抽</th>
+                            <th style={headerCellStyle}>中</th>
+                            <th style={headerCellStyle}>的</th>
+                            <th style={headerCellStyle}>號</th>
+                            <th style={headerCellStyle}>碼</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -210,7 +219,6 @@ const BingoAdmin = () => {
                                         <td
                                             id={key}
                                             style={cellStyleWithColor}
-                                            onClick={() => handleCellClick(key)}
                                             className='bright-style'
                                         >
                                             {cell}
@@ -228,32 +236,10 @@ const BingoAdmin = () => {
                         </tr>           
                     </tbody>
                 </table>
-                    <h1>
-                        中獎人數:{rewardNum}
-                    </h1>
-                {
-                    rewardPlayers.map((player, index) => (
-                        <h2 key={index}>
-                            中獎人 編號 {player.no}, 大名 {player.name}
-                        </h2>
-                    ))
-                }
-                <br></br>
-                <div className='bright-style'>
-                    幾條線可以中獎: {getRewardConnectionNum}　
-                    <button onClick={handleSetRewardConnectionNum}>設置需要連線數</button>
-                </div>
-                <div className='bright-style'>
-                    最多幾個人可以中獎: {rewardNumMax}　
-                    <button onClick={handleSetRewardNumMax}>設置可中獎人數</button>
-                </div>
-                <div>
-                    <button onClick={handleResetGame}>重開遊戲</button>
-                 </div>
             </div>
         </>
         );
     
 };
 
-export default BingoAdmin;
+export default BingoAdminDashBoard;

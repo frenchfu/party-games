@@ -94,6 +94,7 @@ public class PlayerAccountService {
         UserDetail userDetail = UserDetail.builder()
                 .account(targetPlayerOp.get().getNo())
                 .authType("P")
+                .gameUuid(PlayerController.GAME_UUID)
                 .permissionList(Arrays.asList(RoleConstants.PLAYER))
                 .build();
         String token = tokenService.generateToken(objectMapper.writeValueAsString(userDetail));
