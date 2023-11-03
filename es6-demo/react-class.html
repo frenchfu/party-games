@@ -1,0 +1,40 @@
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="myDiv"></div>
+    <div>
+        <button id="myButton">SHOW MY ID CARD</button>
+    </div>
+	<div>ES6練習版</div>
+	<div id="resultDiv"  style="border-width:3px;border-style:dashed;border-color:#FFAC55;padding:5px;">
+
+
+	</div>
+</body>
+<script type="module">
+
+	//載入模組使用 import
+    import {doHelloWorld,getMyIdCard , doShowResoult} from './main.js';
+
+	$(document).ready(function() {
+        console.log(doHelloWorld());
+		$("#resultDiv").html(
+			"<div>"
+				+
+				doShowResoult()
+				+
+				"</div>"
+		);
+    });
+
+    document.getElementById("myButton").addEventListener("click", function() {
+        let myIdCard = getMyIdCard();
+		console.log(myIdCard);
+		$("#myDiv").html(
+			"<div>大名:"+myIdCard.name+"</div>"+
+			"<div>芳齡:"+myIdCard.age+"</div>"+
+			"<div>工作:"+myIdCard.job+"</div>"
+		);
+    });
+</script>
