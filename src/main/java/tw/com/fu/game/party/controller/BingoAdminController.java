@@ -38,6 +38,7 @@ public class BingoAdminController {
         BingoController.REWARD_PLAYERS = new ArrayList<>();
         PlayerController.GAME_UUID = UUID.randomUUID().toString();
         PlayerDao.PLAYER_MAP = new HashMap<>();
+        BingoController.REWARD_NUM = 0;
 
         apiResponse.setResult(DoAdminReloadResponse.builder()
                 .canCheckdNums(BingoController.CAN_CLICK_SET)
