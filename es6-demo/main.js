@@ -16,11 +16,18 @@ export const getMyIdCard = () => myIdCard;
 
 export const doShowResoult = ()=>{
     let result =  "輸出結果";
-    //result = doAddAdd(3, 6);
+    //result = doAddAdd(3, 6); //1-2
     //result = addAddV2(5, 8);
     //result = addOne(8);
-    //result =  JSON.stringify(tryMapEs6Case());
-    //result =  JSON.stringify(tryArrayEs6Case());
+    //result =  JSON.stringify(tryMapEs6Case()); //1-4
+    //result =  JSON.stringify(tryArrayEs6Case());//1-5
+    
+    //立即function
+    /*
+    result = (function(input){
+        return input + " 經過立即function 加工";
+      })(result); 
+    */
     return result;
 }
 
@@ -39,13 +46,13 @@ const targerArray = ["10","9","8","7","6","5","4","3","2","1"];
 //示範 MAP 複製範例一
 const tryMapEs6Case = () => {
     //case 完全複製
-    let result = {...targetMap};
-    //case 完全複製 並增加元素
+    let result = {...targetMap};//1-4-a
+    //case 完全複製 並增加元素 b
     //result = {...targetMap, seven:"7",eight:"8"} 
-    //case 賦值
+    //case 賦值 c
     //let {one , two , three} =targetMap;
     //result = {three:three , two : two , one : one}
-    //case LEFT CLONE 會把沒有賦值的剩餘資料組成一個新MAP
+    //case LEFT CLONE 會把沒有賦值的剩餘資料組成一個新MAP d
     //let {four, five, six, ...others} = targetMap;
     //result = {six:four , five: five , four : six , others: others};
     return result;
@@ -54,16 +61,16 @@ const tryMapEs6Case = () => {
 
 const tryArrayEs6Case= () => {
 
-    //case 完全複製
+    //case 完全複製 //1-5-a
     let result = [...targerArray];
-    //case 完全複製 並增加元素
+    //case 完全複製 並增加元素 b
     //result = [...targerArray,"0","-1","-2","-3"];
-    //case 賦值
+    //case 賦值 c
     //let [one , two , three] =targerArray;
     //result = one;
     //result = [one , two , three];
     //result = [three , two , one];
-    //case LEFT CLONE 會把沒有賦值的剩餘資料組成一個新 Array
+    //case LEFT CLONE 會把沒有賦值的剩餘資料組成一個新 Array d
     //let [one , two , three , ...others] = targerArray;
     //result = others;
     return result;

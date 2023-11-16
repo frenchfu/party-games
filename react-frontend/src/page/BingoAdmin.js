@@ -239,11 +239,11 @@ const BingoAdmin = () => {
                     ))
                 }
                 <br></br>
-                <div className='bright-style'>
+                <div className='bright-style blue-text'>
                     幾條線可以中獎: {getRewardConnectionNum}　
                     <button onClick={handleSetRewardConnectionNum}>設置需要連線數</button>
                 </div>
-                <div className='bright-style'>
+                <div className='bright-style blue-text'>
                     最多幾個人可以中獎: {rewardNumMax}　
                     <button onClick={handleSetRewardNumMax}>設置可中獎人數</button>
                 </div>

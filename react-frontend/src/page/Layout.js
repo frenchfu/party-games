@@ -19,3 +19,31 @@ const Layout = () => {
 };
 
 export default Layout;
+
+/*
+import React, { Component } from "react";
+import { Outlet, Link } from "react-router-dom";
+
+class Layout extends Component {
+  render() {
+    return (
+      <>
+        <link href="/party-games/assets/images/favicon.ico" rel="icon" />
+        <link href="/party-games/assets/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="/party-games/assets/css/style.css" rel="stylesheet" />
+        <link href="/party-games/assets/css/icons.min.css" rel="stylesheet" />
+        <script src="/party-games/assets/js/jquery-3.6.3.min.js"></script>
+        <script src="/party-games/assets/js/bootstrap.bundle.min.js"></script>
+        <script src="/party-games/assets/js/style.js"></script>
+        <div className="bg">
+          <Outlet />
+        </div>
+      </>
+    );
+  }
+}
+
+export default Layout;
+
+
+*/

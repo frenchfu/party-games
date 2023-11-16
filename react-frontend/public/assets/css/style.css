@@ -596,6 +596,10 @@ a {
     color: red;
 }
 
+.blue-text {
+    color: blue;
+}
+
 .form-label {
     margin-left: 10px; /* 根据需要调整左边距 */
   }
@@ -640,11 +644,11 @@ a {
   /* 通用的亮色系类 */
 .bright-style {
     border: 5px solid black; /* 给元素添加黑色边框 */
-    color: #f7f3f6; /* 设置文字颜色为亮色系，示例中使用橙色 */
+    color: #18b674; /* 设置文字颜色为亮色系，示例中使用橙色 */
   }
 
   .anty-bright-style {
-    border: 5px solid rgb(248, 242, 242); /* 给元素添加黑色边框 */
+    border: 5px solid rgb(15, 207, 166); /* 给元素添加黑色边框 */
     color: #080006; /* 设置文字颜色为亮色系，示例中使用橙色 */
   }  
   
