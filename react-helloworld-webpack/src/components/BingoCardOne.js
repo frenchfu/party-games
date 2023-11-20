@@ -1,37 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-import {BingoCardOne} from './components/BingoCardOne'
-
-/*
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <span>HELLO WORLD</span>
-      </header>
-
-    </div>
-  );
-}
-*/
-
 import React, { useState , useEffect} from 'react';
 
-
-
-const App = () => {
+const BingoCardOne = () => {
 
   const tbody_css = {
     border: "5px solid black", /* 给元素添加黑色边框 */
@@ -62,13 +31,7 @@ const App = () => {
   
   }
 
- //const doClickNumber = (key) => {
- //  setClickNumber((prevClickNumber) => {
- //    const newClickNumber = { ...prevClickNumber };
- //    newClickNumber[key] = !newClickNumber[key];
- //    return newClickNumber;
- //  });
- //};
+
 
   
   useEffect(() => {
@@ -120,8 +83,6 @@ const App = () => {
     </div>
   );
 }
-
-
-export default App;
+export default BingoCardOne;
 
 
