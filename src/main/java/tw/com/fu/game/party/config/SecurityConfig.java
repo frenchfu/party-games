@@ -116,6 +116,12 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/bingo-admin/**")
                 .permitAll()
+                .antMatchers(HttpMethod.POST, "/api/react-class/**")
+                .permitAll()
+                .antMatchers(HttpMethod.GET, "/api/react-class/**")
+                .permitAll()
+
+
         ;
 
 
