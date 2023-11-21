@@ -36,25 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-
-.bingoTbody tr td{
-  border: 5px solid black;
-  color: #18b674;
-}
-
-.container {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-.box {
-      width: calc(33.33% - 10px); /* 考慮到 margin 的寬度，這裡設定 10px */
-      height: 100px; /* 這裡設定高度，你可以根據需求調整 */
-      margin: 5px; /* 考慮到 margin 的寬度，這裡設定 5px */
-      border: 1px solid #000;
-      box-sizing: border-box;
-      display :flex;
-      flex-wrap: wrap;
-      margin-bottom:180px ;
-}

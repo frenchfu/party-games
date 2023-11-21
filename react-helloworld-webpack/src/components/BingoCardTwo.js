@@ -1,6 +1,6 @@
 import React, { useState , useEffect} from 'react';
 
-const BingoCardOne = ({ inputBingoCardMapData }) => {
+const BingoCardOne = ({ inputBingoCardMapData, clickNumber, setClickNumber }) => {
 
   const tbody_css = {
     border: "5px solid black", /* 给元素添加黑色边框 */
@@ -13,23 +13,11 @@ const BingoCardOne = ({ inputBingoCardMapData }) => {
     backgroundColor: "red" // 保留分号
   }
 
-
-  const [ clickNumber, setClickNumber ] = useState({});
   const [ bingoCardMap, setBingoCardMap ] = useState(inputBingoCardMapData);
 
 
   const doClickNumber =  (key) => {
-  
-    const finalClickNumber = {...clickNumber};
-    console.log(finalClickNumber);
-    if(!!finalClickNumber[key]){
-      finalClickNumber[key] = null;
-    }else{
-      finalClickNumber[key] = true;
-    }
-    console.log(finalClickNumber);
-    setClickNumber(finalClickNumber);
-  
+    setClickNumber(key);
   }
 
   
@@ -37,8 +25,7 @@ const BingoCardOne = ({ inputBingoCardMapData }) => {
 
     setBingoCardMap(inputBingoCardMapData);
 
-
-  }, [inputBingoCardMapData]); 
+  }, [inputBingoCardMapData,clickNumber]); 
 
   return (
     <>
@@ -54,9 +41,9 @@ const BingoCardOne = ({ inputBingoCardMapData }) => {
                 return (
                   <td
                       id={key}
-                      style={clickNumber[key] === true ? tbody_css_red : tbody_css}
+                      style={clickNumber[no] === true ? tbody_css_red : tbody_css}
                       name={no}
-                      onClick={() => doClickNumber(key, no)}
+                      onClick={() => doClickNumber(no, key)}
                       className='bright-style bright-blue-border'
                   >
                       {no}

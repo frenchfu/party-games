@@ -1,34 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
-import {BingoCardOne} from './components/BingoCardOne'
-
-/*
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <span>HELLO WORLD</span>
-      </header>
-
-    </div>
-  );
-}
-*/
-
+import BingoCardOne from './components/BingoCardOne'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useState , useEffect} from 'react';
+import Layout from "./Layout";
+import Home from "./Home";
+import ThreeCard from "./ThreeCard";
+import GetCardFromApi from "./page/GetCardFromApi";
+import GetCardFromApiByButton from "./page/GetCardFromApiByButton";
+import TestAxios from "./page/TestAxios";
+import HeaderAndFotter from "./page/HeaderAndFotter";
 
+
+//context
+import { AppContext } from "./context/context";
+import { useClickNumber } from "./context/clickNumber";
 
 
 const App = () => {
@@ -44,84 +30,38 @@ const App = () => {
     backgroundColor: "red" // 保留分号
   }
 
+  const { clickNumber, setClickNumber } = useClickNumber();
 
-  const [ clickNumber, setClickNumber ] = useState({});
 
-
-  const doClickNumber =  (key) => {
-  
-    const finalClickNumber = {...clickNumber};
-    console.log(finalClickNumber);
-    if(!!finalClickNumber[key]){
-      finalClickNumber[key] = null;
-    }else{
-      finalClickNumber[key] = true;
-    }
-    console.log(finalClickNumber);
-    setClickNumber(finalClickNumber);
-  
-  }
-
- //const doClickNumber = (key) => {
- //  setClickNumber((prevClickNumber) => {
- //    const newClickNumber = { ...prevClickNumber };
- //    newClickNumber[key] = !newClickNumber[key];
- //    return newClickNumber;
- //  });
- //};
-
-  
   useEffect(() => {
+
 
   }, []); 
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <tbody style={{...tbody_css, backgroundColor:"blue"}} className={"bingoTbody"}>
-          <tr>
-            <td style={clickNumber["1"] === true ? tbody_css_red : tbody_css} onClick={() => { doClickNumber("1") }}>1</td>
-            <td style={tbody_css} >2</td>
-            <td style={tbody_css} >3</td>
-            <td style={tbody_css} >4</td>
-            <td style={tbody_css} >5</td>
-          </tr>
-          <tr>
-            <td style={tbody_css} >6</td>
-            <td style={tbody_css} >7</td>
-            <td style={tbody_css} >8</td>
-            <td style={tbody_css} >9</td>
-            <td style={tbody_css} >10</td>
-          </tr>
-          <tr>
-            <td style={tbody_css} >11</td>
-            <td style={tbody_css} >12</td>
-            <td style={tbody_css} >13</td>
-            <td style={tbody_css} >14</td>
-            <td style={tbody_css} >15</td>
-          </tr>
-          <tr>
-            <td>16</td>
-            <td>17</td>
-            <td>18</td>
-            <td>19</td>
-            <td>20</td>
-          </tr>
-          <tr>
-            <td>21</td>
-            <td>22</td>
-            <td>23</td>
-            <td>24</td>
-            <td>25</td>
-          </tr>
-        </tbody>
-      </header>
 
-    </div>
+  return (
+    <>
+      <AppContext.Provider value={{ clickNumber , setClickNumber }}>
+          <BrowserRouter>
+            <Routes>
+              {
+                //<Route path="/" element={<HeaderAndFotter />} > 
+              }
+                <Route path="/party-games" element={<Layout />}>
+                    <Route index element={<Home />} />
+                    <Route path="threeCard"  element={<ThreeCard />} />
+                    <Route path="getCardFromApi"  element={<GetCardFromApi />} />
+                    <Route path="getCardFromApiByButton"  element={<GetCardFromApiByButton />} />
+                    <Route path="testAxios"  element={<TestAxios />} />
+                </Route>
+                {
+                  //</Route>
+                }
+            </Routes>
+          </BrowserRouter>
+      </AppContext.Provider>
+    </>
   );
 }
 
-
 export default App;
-
-
