@@ -18,23 +18,23 @@ const GetCardFromApi = () => {
         const fetchData = async () => {
 
 
-            //let response = await drowApi();
-            //let bingoCard = response.result.bingoCard;
-            //setBingoCardMap(bingoCard);
+            let response = await drowApi();
+            let bingoCard = response.result.bingoCard;
+            setBingoCardMap(bingoCard);
 
 
 
-            const response = await fetch('http://localhost:8080/party-games/api/react-class/drow-a-card', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                },
-            });
-            const data = await response.json();
-            setBingoCardMap(data.result.bingoCard);
-            console.log("ForceRerender");
-            console.log(data.result.bingoCard);
-            console.log("ForceRerender 2 ");
+            // const response = await fetch('/party-games/api/react-class/drow-a-card', {
+            //     method: 'POST',
+            //     headers: {
+            //         'Accept': 'application/json',
+            //     },
+            // });
+            // const data = await response.json();
+            // setBingoCardMap(data.result.bingoCard);
+            // console.log("ForceRerender");
+            // console.log(data.result.bingoCard);
+            // console.log("ForceRerender 2 ");
   
         };
         fetchData();

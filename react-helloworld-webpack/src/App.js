@@ -8,8 +8,8 @@ import Home from "./Home";
 import ThreeCard from "./ThreeCard";
 import GetCardFromApi from "./page/GetCardFromApi";
 import GetCardFromApiByButton from "./page/GetCardFromApiByButton";
-import TestAxios from "./page/TestAxios";
 import HeaderAndFotter from "./page/HeaderAndFotter";
+import TestAxios from "./page/TestAxios"
 
 
 //context
@@ -44,19 +44,19 @@ const App = () => {
       <AppContext.Provider value={{ clickNumber , setClickNumber }}>
           <BrowserRouter>
             <Routes>
-              {
-                //<Route path="/" element={<HeaderAndFotter />} > 
-              }
-                <Route path="/party-games" element={<Layout />}>
-                    <Route index element={<Home />} />
-                    <Route path="threeCard"  element={<ThreeCard />} />
-                    <Route path="getCardFromApi"  element={<GetCardFromApi />} />
-                    <Route path="getCardFromApiByButton"  element={<GetCardFromApiByButton />} />
-                    <Route path="testAxios"  element={<TestAxios />} />
-                </Route>
-                {
-                  //</Route>
-                }
+              
+                <Route path="/" element={<HeaderAndFotter />} > 
+              
+                  <Route path="/party-games" element={<Layout />}>
+                      <Route index element={<Home />} />
+                      <Route path="threeCard"  element={<ThreeCard />} />
+                      <Route path="getCardFromApi"  element={<GetCardFromApi />} />
+                      <Route path="getCardFromApiByButton"  element={<GetCardFromApiByButton />} />
+                      <Route path="testAxios"  element={<TestAxios />} />
+                  </Route>
+                
+              </Route>
+            
             </Routes>
           </BrowserRouter>
       </AppContext.Provider>
